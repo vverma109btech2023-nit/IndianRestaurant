@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin } from 'lucide-react';
 
 const InstagramIcon = (props) => (
@@ -24,17 +25,6 @@ const TwitterIcon = (props) => (
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
-  const handleLinkClick = (e, href) => {
-    e.preventDefault();
-    const targetElement = document.querySelector(href);
-    if (targetElement) {
-      window.scrollTo({
-        top: targetElement.offsetTop - 80,
-        behavior: 'smooth'
-      });
-    }
-  };
-
   return (
     <footer className="bg-luxury-dark border-t border-gold-900/20 pt-20 pb-10 text-white/70 relative overflow-hidden">
       {/* Subtle bottom glows */}
@@ -47,14 +37,14 @@ export default function Footer() {
           
           {/* Column 1: Brand (4 Columns) */}
           <div className="lg:col-span-4 flex flex-col items-start">
-            <a href="#hero" onClick={(e) => handleLinkClick(e, '#hero')} className="flex flex-col items-start mb-6 group">
+            <Link to="/" className="flex flex-col items-start mb-6 group">
               <span className="font-display text-2xl tracking-[0.25em] text-gold-400 group-hover:text-gold-300 transition-colors duration-300 font-bold">
                 SAFFRON
               </span>
               <span className="text-[10px] tracking-[0.6em] text-white/60 -mt-1 group-hover:text-gold-200 transition-colors duration-300">
                 & GOLD
               </span>
-            </a>
+            </Link>
             <p className="text-xs text-white/60 font-serif leading-relaxed mb-6 max-w-sm">
               An award-winning sanctuary of Indian fine dining, elevating classical Vedic culinary arts into modern gastronomic masterpieces. Crafting memories, one plate at a time.
             </p>

@@ -1,30 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { ChevronUp } from 'lucide-react';
 
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Specialties from './components/Specialties';
-import WhyChooseUs from './components/WhyChooseUs';
-import Gallery from './components/Gallery';
-import Testimonials from './components/Testimonials';
-import Ambience from './components/Ambience';
-import SpecialOffers from './components/SpecialOffers';
-import ReservationCTA from './components/ReservationCTA';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
+
+// Pages
+import Home from './pages/Home';
+import AboutPage from './pages/AboutPage';
+import MenuPage from './pages/MenuPage';
+import AmbiencePage from './pages/AmbiencePage';
+import GalleryPage from './pages/GalleryPage';
+import OffersPage from './pages/OffersPage';
+import ReservePage from './pages/ReservePage';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [showBackToTop, setShowBackToTop] = useState(false);
-
-  // Hook for reading page scroll progress
-  const { scrollYProgress, scrollY } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
 
   // Track scroll position for Back to Top visibility
   useEffect(() => {
@@ -55,7 +49,9 @@ export default function App() {
   };
 
   return (
-    <>
+    <Router>
+      <ScrollToTop />
+      
       {/* 1. Loading Entrance Screen */}
       <AnimatePresence>
         {loading && (
@@ -110,29 +106,25 @@ export default function App() {
 
       {/* Main Website Contents */}
       {!loading && (
-        <div className="min-h-screen bg-luxury-dark text-white relative">
+        <div className="min-h-screen bg-luxury-dark text-white relative flex flex-col justify-between">
           
-          {/* Scroll progress bar */}
-          <motion.div 
-            className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-gold-500 via-saffron-500 to-gold-400 origin-[0%] z-[60]"
-            style={{ scaleX }}
-          />
+          <div>
+            {/* Sticky Header Navigation */}
+            <Navbar />
 
-          {/* Sticky Header Navigation */}
-          <Navbar />
-
-          {/* Sections */}
-          <main>
-            <Hero />
-            <About />
-            <Specialties />
-            <WhyChooseUs />
-            <Gallery />
-            <Testimonials />
-            <Ambience />
-            <SpecialOffers />
-            <ReservationCTA />
-          </main>
+            {/* Routed Pages */}
+            <AnimatePresence mode="wait">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/menu" element={<MenuPage />} />
+                <Route path="/ambience" element={<AmbiencePage />} />
+                <Route path="/gallery" element={<GalleryPage />} />
+                <Route path="/offers" element={<OffersPage />} />
+                <Route path="/reserve" element={<ReservePage />} />
+              </Routes>
+            </AnimatePresence>
+          </div>
 
           {/* Footer information */}
           <Footer />
@@ -157,6 +149,6 @@ export default function App() {
 
         </div>
       )}
-    </>
+    </Router>
   );
 }
